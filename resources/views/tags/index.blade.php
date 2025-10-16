@@ -3,33 +3,58 @@
 @section('title', 'Tags | Online Shop')
 
 @section('content')
-<h1 class="text-2xl font-bold mb-4">Tags</h1>
+<section class="py-16 bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800">Tags</h1>
+            <a href="{{ route('tags.create') }}"
+               class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg shadow-lg transition transform hover:scale-105">
+               + Add Tag
+            </a>
+        </div>
 
-<a href="{{ route('tags.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Add Tag</a>
+        @php
+            $tags = [
+                ['name' => 'Electronics', 'color' => 'indigo'],
+                ['name' => 'Clothing', 'color' => 'pink'],
+                ['name' => 'Books', 'color' => 'green'],
+                ['name' => 'Home & Kitchen', 'color' => 'yellow'],
+                ['name' => 'Sports', 'color' => 'blue'],
+                ['name' => 'Beauty & Health', 'color' => 'purple'],
+                ['name' => 'Toys & Kids', 'color' => 'orange'],
+                ['name' => 'Furniture', 'color' => 'gray'],
+                ['name' => 'Automotive', 'color' => 'red'],
+                ['name' => 'Music & Entertainment', 'color' => 'teal'],
+            ];
+        @endphp
 
-<table class="w-full border-collapse border border-gray-300">
-    <thead>
-        <tr class="bg-gray-100">
-            <th class="border px-2 py-1">ID</th>
-            <th class="border px-2 py-1">Name</th>
-            <th class="border px-2 py-1">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($tags as $tag)
-        <tr>
-            <td class="border px-2 py-1">{{ $tag->id }}</td>
-            <td class="border px-2 py-1">{{ $tag->name }}</td>
-            <td class="border px-2 py-1">
-                <a href="{{ route('tags.edit', $tag->id) }}" class="text-blue-500">Edit</a>
-                <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-red-500 ml-2">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            @foreach($tags as $tag)
+                <div class="flex flex-col items-center justify-center px-4 py-3 rounded-2xl shadow-lg bg-white
+                            hover:shadow-2xl hover:scale-105 transition transform cursor-pointer animate-bounce-slow
+                            border-l-4 border-{{ $tag['color'] }}-500">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center bg-{{ $tag['color'] }}-100 mb-3">
+                        <span class="text-lg font-bold text-{{ $tag['color'] }}-700">{{ substr($tag['name'],0,1) }}</span>
+                    </div>
+                    <h2 class="text-center text-lg font-semibold text-gray-800">{{ $tag['name'] }}</h2>
+                </div>
+            @endforeach
+        </div>
+
+        @if(count($tags) === 0)
+            <p class="text-gray-500 mt-8 text-center text-lg">No tags found. Add some to organize your products.</p>
+        @endif
+    </div>
+</section>
+
+{{-- Custom animation --}}
+<style>
+    @keyframes bounce-slow {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-slow {
+        animation: bounce-slow 2s infinite;
+    }
+</style>
 @endsection
