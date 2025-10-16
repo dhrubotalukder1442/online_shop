@@ -9,6 +9,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ReviewController;
 
+
+
+// api resource routes -> (get, post, put, delete)
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('tags', TagController::class);
