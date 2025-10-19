@@ -10,7 +10,8 @@ use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
+    // return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
