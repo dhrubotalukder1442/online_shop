@@ -51,18 +51,29 @@
                 </label>
             </div>
 
-            <!-- Submit -->
-            <div class="flex items-center justify-between">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+            <!-- Submit Buttons -->
+            <div class="flex items-center justify-between mt-6">
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}"
+                       class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-32 text-center transition">
+                        {{ __('Register') }}
                     </a>
                 @endif
 
-                <x-primary-button class="ml-3 px-6 py-3 text-lg">
+                <button type="submit"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-32 text-center transition">
                     {{ __('Log in') }}
-                </x-primary-button>
+                </button>
             </div>
+
+            <!-- Forgot Password -->
+            @if (Route::has('password.request'))
+                <div class="text-center mt-6">
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                </div>
+            @endif
         </form>
     </div>
 </div>
