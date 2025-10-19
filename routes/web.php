@@ -9,10 +9,16 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/select-role', [HomeController::class, 'selectRole'])->name('select.role');
+Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('role.redirect');
+
 Route::get('/', function () {
-    return redirect('login');
-    // return view('auth.login');
+    return redirect('/home');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
