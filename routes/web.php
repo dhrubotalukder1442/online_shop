@@ -13,6 +13,8 @@ Route::get('/', function () {
     return redirect('login');
     // return view('auth.login');
 });
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+     ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade
 
 Route::get('/dashboard', function () {
     return view('dashboard');
