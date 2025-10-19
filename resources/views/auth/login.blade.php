@@ -1,4 +1,4 @@
-@extends('Layouts.layout1')
+@extends('Layouts.guest')
 
 @section('title', 'Login')
 
