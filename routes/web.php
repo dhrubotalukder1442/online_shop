@@ -18,6 +18,8 @@ Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('r
 Route::get('/', function () {
     return redirect('/home');
 });
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+     ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade
 
 
 Route::get('/dashboard', function () {
