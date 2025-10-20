@@ -46,18 +46,29 @@
                             {{-- Product Image --}}
                             <div class="w-28 h-28 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-4">
                                 @if(!empty($product['image']))
-                                    <img src="{{ asset('storage/products/' . $product['image']) }}" 
-                                         alt="{{ $product['name'] }}" 
+                                    <img src="{{ asset('storage/products/' . $product['image']) }}"
+                                         alt="{{ $product['name'] }}"
                                          class="object-cover w-full h-full">
                                 @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" 
-                                         class="h-16 w-16 text-gray-400" 
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-16 w-16 text-gray-400"
                                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                               d="M3 7h18M3 12h18M3 17h18" />
                                     </svg>
                                 @endif
                             </div>
+
+                            {{-- Upload Image Form --}}
+                            <form action="{{ route('products.uploadimage', $product['id']) }}"
+                                  method="POST" enctype="multipart/form-data"
+                                  class="flex flex-col items-center mb-3">
+                                @csrf
+                                <label class="cursor-pointer bg-gray-200 hover:bg-indigo-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-md transition">
+                                    📷 Upload
+                                    <input type="file" name="image" class="hidden" onchange="this.form.submit()">
+                                </label>
+                            </form>
 
                             {{-- Product Info --}}
                             <h3 class="text-lg font-semibold text-gray-900 text-center group-hover:text-indigo-600 transition">
