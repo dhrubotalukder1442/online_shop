@@ -17,7 +17,7 @@
         {{-- Example Product Data --}}
         @php
             $products = [
-                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg', '<button></button>'],
+                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg'],
                 ['id' => 2, 'name' => 'Headphones', 'price' => 59.99, 'tags' => ['Electronics'], 'image' => 'headphones.jpg'],
                 ['id' => 3, 'name' => 'T-Shirt', 'price' => 19.99, 'tags' => ['Clothing'], 'image' => 'tshirt.jpg'],
                 ['id' => 4, 'name' => 'Lipstick', 'price' => 9.99, 'tags' => ['Beauty & Health'], 'image' => 'lipstick.jpg'],
@@ -25,7 +25,6 @@
                 ['id' => 6, 'name' => 'Blender', 'price' => 49.99, 'tags' => ['Home & Kitchen'], 'image' => 'blender.jpg'],
             ];
 
-            // Group and sort categories
             $grouped = collect($products)->groupBy(fn($p) => $p['tags'][0]);
             $order = ['Electronics', 'Clothing', 'Beauty & Health', 'Books', 'Home & Kitchen'];
             $sorted = collect($order)
@@ -36,22 +35,16 @@
         {{-- Display grouped products --}}
         @foreach($sorted as $category => $items)
             <div class="mb-16">
-                {{-- Category header --}}
                 <div class="flex justify-between items-center mb-6 border-b-2 border-indigo-200 pb-2">
                     <h2 class="text-2xl font-bold text-indigo-700">{{ $category }}</h2>
-                    <a href="{{ route('orders.create', ['category' => $category]) }}"
-                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition">
-                       🛒 Order Now
-                    </a>
                 </div>
 
-                {{-- Product Grid --}}
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
                     @foreach($items as $product)
                         <div class="group bg-white rounded-xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all p-4 flex flex-col items-center">
 
                             {{-- Product Image --}}
-                            <div class="w-28 h-28 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-4 relative">
+                            <div class="w-28 h-28 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-4">
                                 @if(!empty($product['image']))
                                     <img src="{{ asset('storage/products/' . $product['image']) }}"
                                          alt="{{ $product['name'] }}"
@@ -66,22 +59,17 @@
                                 @endif
                             </div>
 
-                            {{-- Upload Image Form --}}
-                            <form action="{{ route('products.uploadimage', $product['id']) }}"
-                                  method="POST" enctype="multipart/form-data"
-                                  class="flex flex-col items-center mb-3">
-                                @csrf
-                                <label class="cursor-pointer bg-gray-200 hover:bg-indigo-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-md transition">
-                                    📷 Upload
-                                    <input type="file" name="image" class="hidden" onchange="this.form.submit()">
-                                </label>
-                            </form>
-
                             {{-- Product Info --}}
                             <h3 class="text-lg font-semibold text-gray-900 text-center group-hover:text-indigo-600 transition">
                                 {{ $product['name'] }}
                             </h3>
                             <p class="text-sm text-gray-500 mt-1">${{ number_format($product['price'], 2) }}</p>
+
+                            {{-- ✅ Details Button --}}
+                            <a href="{{ route('products.show', $product['id']) }}"
+                               class="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-md shadow transition">
+                               Details
+                            </a>
                         </div>
                     @endforeach
                 </div>
