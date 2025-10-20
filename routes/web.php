@@ -16,7 +16,7 @@ Route::get('/select-role', [HomeController::class, 'selectRole'])->name('select.
 Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('role.redirect');
 
 Route::get('/', function () {
-    return redirect('/home');
+    return redirect('/products');
 });
 Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
      ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade

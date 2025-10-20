@@ -17,7 +17,7 @@
         {{-- Example Product Data --}}
         @php
             $products = [
-                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg', <button></button>],
+                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg', '<button></button>'],
                 ['id' => 2, 'name' => 'Headphones', 'price' => 59.99, 'tags' => ['Electronics'], 'image' => 'headphones.jpg'],
                 ['id' => 3, 'name' => 'T-Shirt', 'price' => 19.99, 'tags' => ['Clothing'], 'image' => 'tshirt.jpg'],
                 ['id' => 4, 'name' => 'Lipstick', 'price' => 9.99, 'tags' => ['Beauty & Health'], 'image' => 'lipstick.jpg'],
@@ -53,22 +53,22 @@
                             {{-- Product Image --}}
                             <div class="w-28 h-28 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-4 relative">
                                 @if(!empty($product['image']))
-                                    <img src="{{ asset('storage/products/' . $product['image']) }}" 
-                                         alt="{{ $product['name'] }}" 
+                                    <img src="{{ asset('storage/products/' . $product['image']) }}"
+                                         alt="{{ $product['name'] }}"
                                          class="object-cover w-full h-full">
                                 @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" 
-                                         class="h-16 w-16 text-gray-400" 
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-16 w-16 text-gray-400"
                                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                               d="M3 7h18M3 12h18M3 17h18" />
                                     </svg>
                                 @endif
                             </div>
 
                             {{-- Upload Image Form --}}
-                            <form action="{{ route('products.uploadimage', $product['id']) }}" 
-                                  method="POST" enctype="multipart/form-data" 
+                            <form action="{{ route('products.uploadimage', $product['id']) }}"
+                                  method="POST" enctype="multipart/form-data"
                                   class="flex flex-col items-center mb-3">
                                 @csrf
                                 <label class="cursor-pointer bg-gray-200 hover:bg-indigo-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-md transition">
