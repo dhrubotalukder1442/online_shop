@@ -69,25 +69,22 @@
                     <span>ShopHub</span>
                 </a>
 
-                @auth
                 <div class="hidden md:flex space-x-8">
-                    <a href="{{ route('dashboard') }}" class="nav-link hover:text-purple-200">Dashboard</a>
                     <a href="{{ route('products.index') }}" class="nav-link hover:text-purple-200">Products</a>
+                    <a href="{{ route('categories.index') }}" class="nav-link hover:text-purple-200">Categories</a>
+                    <a href="{{ route('tags.index') }}" class="nav-link hover:text-purple-200">Tags</a>
                     <a href="{{ route('orders.index') }}" class="nav-link hover:text-purple-200">Orders</a>
                     <a href="{{ route('reviews.index') }}" class="nav-link hover:text-purple-200">Reviews</a>
                 </div>
-                @endauth
-
 
                 <!-- Admin Dropdown -->
-                @auth
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center space-x-2 bg-white text-indigo-700 px-4 py-2 rounded-md font-semibold hover:bg-indigo-50 transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M5.121 17.804A13.937 13.937 0 0112 15c2.39 0 4.64.563 6.879 1.804M12 15a3 3 0 100-6 3 3 0 000 6zm0 0v1m0-8V6m0 12v2m-9-6h2m12 0h2"/>
                         </svg>
-                        <span>User</span>
+                        <span>Admin</span>
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M19 9l-7 7-7-7" />
@@ -104,20 +101,6 @@
                         </form>
                     </div>
                 </div>
-                @endauth
-
-                @guest
-                <div class="gap-4">
-                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
-                        Register
-                    </a>
-                </div>
-                @endguest
-
-
             </div>
         </div>
     </nav>

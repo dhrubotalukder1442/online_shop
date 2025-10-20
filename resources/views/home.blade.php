@@ -1,4 +1,4 @@
-@extends('layouts.home_layout')
+@extends('layouts.layout1')
 
 @section('content')
 <section class="py-16 bg-gray-50 min-h-screen">

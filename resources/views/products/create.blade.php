@@ -16,12 +16,6 @@
 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
-    {{-- Category (Text Input) --}}
-    <div class="mb-2">
-        <label class="block font-semibold">Category</label>
-        <input type="text" name="category_name" value="{{ old('category_name') }}" placeholder="Enter category name" class="border p-2 w-full rounded" required>
-    </div>
-
     {{-- Product Name --}}
     <div class="mb-2">
         <label class="block font-semibold">Product Name</label>
@@ -43,13 +37,7 @@
     {{-- Tags --}}
     <div class="mb-2">
         <label class="block font-semibold">Tags</label>
-        <select name="tags[]" id="tags" multiple class="border p-2 w-full rounded">
-            @foreach($tags as $tag)
-                <option value="{{ $tag }}" {{ (collect(old('tags'))->contains($tag)) ? 'selected':'' }}>
-                    {{ $tag }}
-                </option>
-            @endforeach
-        </select>
+        <input type="text" name="tag" value="{{ old('tag') }}" class="border p-2 w-full rounded" required>
     </div>
 
     {{-- Product Image --}}

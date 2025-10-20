@@ -5,35 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Online Shop')</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js for dropdown toggle -->
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <style>
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
+
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+
         .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
         .slide-in { animation: slideIn 0.5s ease-out forwards; }
+
         .product-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
         }
+
         .category-card { transition: all 0.3s ease; }
         .category-card:hover { transform: scale(1.05); }
+
         .nav-link {
             position: relative;
             transition: color 0.3s ease;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -44,13 +49,17 @@
             background: white;
             transition: width 0.3s ease;
         }
+
         .nav-link:hover::after { width: 100%; }
+
         .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
+
         .floating { animation: float 3s ease-in-out infinite; }
         .badge-pulse { animation: pulse 2s infinite; }
     </style>
@@ -69,61 +78,31 @@
                     <span>ShopHub</span>
                 </a>
 
-                @auth
                 <div class="hidden md:flex space-x-8">
-                    <a href="{{ route('dashboard') }}" class="nav-link hover:text-purple-200">Dashboard</a>
                     <a href="{{ route('products.index') }}" class="nav-link hover:text-purple-200">Products</a>
+                    <a href="{{ route('categories.index') }}" class="nav-link hover:text-purple-200">Categories</a>
+                    <a href="{{ route('tags.index') }}" class="nav-link hover:text-purple-200">Tags</a>
                     <a href="{{ route('orders.index') }}" class="nav-link hover:text-purple-200">Orders</a>
                     <a href="{{ route('reviews.index') }}" class="nav-link hover:text-purple-200">Reviews</a>
                 </div>
-                @endauth
 
-
-                <!-- Admin Dropdown -->
-                @auth
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="flex items-center space-x-2 bg-white text-indigo-700 px-4 py-2 rounded-md font-semibold hover:bg-indigo-50 transition">
+                <div class="flex items-center space-x-4">
+                    <button class="relative hover:text-purple-200 transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M5.121 17.804A13.937 13.937 0 0112 15c2.39 0 4.64.563 6.879 1.804M12 15a3 3 0 100-6 3 3 0 000 6zm0 0v1m0-8V6m0 12v2m-9-6h2m12 0h2"/>
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0
+                                  a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
-                        <span>User</span>
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <span class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5
+                              flex items-center justify-center badge-pulse">3</span>
                     </button>
-
-                    <!-- Dropdown Menu -->
-                    <div x-show="open" @click.away="open = false"
-                         class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg py-2">
-                        <a href="#" class="block px-4 py-2 hover:bg-indigo-100">Profile</a>
-                        <form method="POST" action="{{ route('logout.confirm') }}">
-                            @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-indigo-100">Logout</button>
-                        </form>
-                    </div>
                 </div>
-                @endauth
-
-                @guest
-                <div class="gap-4">
-                    <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
-                        Register
-                    </a>
-                </div>
-                @endguest
-
-
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1 container mx-auto px-4 py-6">
+    <main class="min-h-screen">
         @yield('content')
     </main>
 
@@ -135,6 +114,7 @@
                     <h3 class="font-bold text-xl mb-4">ShopHub</h3>
                     <p class="text-gray-400">Your one-stop shop for everything amazing.</p>
                 </div>
+
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-gray-400">
@@ -143,6 +123,7 @@
                         <li><a href="#" class="hover:text-white transition">FAQ</a></li>
                     </ul>
                 </div>
+
                 <div>
                     <h4 class="font-semibold mb-4">Categories</h4>
                     <ul class="space-y-2 text-gray-400">
@@ -151,6 +132,7 @@
                         <li><a href="#" class="hover:text-white transition">Home & Living</a></li>
                     </ul>
                 </div>
+
                 <div>
                     <h4 class="font-semibold mb-4">Newsletter</h4>
                     <p class="text-gray-400 mb-3">Subscribe for exclusive deals</p>
@@ -166,6 +148,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
                 <p>&copy; 2025 ShopHub. All rights reserved.</p>
             </div>

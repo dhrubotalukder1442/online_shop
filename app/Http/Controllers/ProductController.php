@@ -24,23 +24,25 @@ class ProductController extends Controller
         return view('products.create', compact('tags'));
     }
 
-  public function store(Request $request)
+public function store(Request $request)
 {
-    // Validate incoming data
+    // Validate form input
     $validated = $request->validate([
         'category_name' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
         'price' => 'required|numeric',
-        'tags' => 'nullable|array',
+        'tag' => 'nullable|string',
         'image' => 'nullable|image|max:2048',
     ]);
 
-    // ✅ Check if category exists, or create it
-    $category = Category::firstOrCreate(
-        ['name' => $validated['category_name']],
-        ['created_at' => now(), 'updated_at' => now()]
-    );
+    // ✅ Create or find category
+    $category = Category::where('name', $validated['category_name'])->first();
+    if (!$category) {
+        $category = Category::create([
+            'name' => $validated['category_name'],
+        ]);
+    }
 
     // ✅ Handle image upload
     $imagePath = null;
@@ -48,25 +50,19 @@ class ProductController extends Controller
         $imagePath = $request->file('image')->store('products', 'public');
     }
 
-    // ✅ Create the product and associate with category
-    $product = Product::create([
+    // ✅ Create product using your column names
+    Product::create([
         'category_id' => $category->id,
-        'name' => $validated['name'],
+        'product_name' => $validated['name'],
         'description' => $validated['description'],
         'price' => $validated['price'],
         'stock_quantity' => 0,
         'image_url' => $imagePath,
+        'tag' => $validated['tag'],
     ]);
 
-    // ✅ Attach tags if provided
-    if (!empty($validated['tags'])) {
-        $product->tags()->sync($validated['tags']);
-    }
-
-    // ✅ Redirect with success message
-    return redirect()->route('products.create')->with('success', '✅ Product created and added to category: ' . $category->name);
+    return redirect()->route('products.create')->with('success', '✅ Product added to category: ' . $category->name);
 }
-
 
     // Show the edit form
     public function edit(Product $products)
