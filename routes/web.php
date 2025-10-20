@@ -9,13 +9,26 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/select-role', [HomeController::class, 'selectRole'])->name('select.role');
+Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('role.redirect');
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/products');
 });
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+     ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+    ->name('products.uploadimage');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
