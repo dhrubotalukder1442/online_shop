@@ -14,7 +14,7 @@
             <h1 class="text-2xl font-bold text-indigo-600">ShopHub</h1>
             <nav>
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-indigo-600 px-3">Home</a>
-                <a href="{{ route('select.role') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Login / Register</a>
+                <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Login / Register</a>
             </nav>
         </div>
     </header>

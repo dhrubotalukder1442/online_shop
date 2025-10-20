@@ -9,9 +9,13 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description'];
+    // Only include fields relevant to a category
+    protected $fillable = [
+        'name',        // Category name
+        'description', // Optional: description of the category
+    ];
 
-    // Relationships
+    // Relationship: one category has many products
     public function products()
     {
         return $this->hasMany(Product::class);

@@ -9,91 +9,122 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    // Display all products
     public function index()
     {
-        $products = Product::with(['category','tags'])->get();
+        $products = Product::with(['category', 'tags'])->get();
         return view('products.index', compact('products'));
     }
 
-    public function create()
+    // Show form to create a new product
+
+     public function create()
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-        return view('products.create', compact('categories','tags'));
+        $tags = Tag::pluck('name', 'id'); // Assuming tags have id and name
+        return view('products.create', compact('tags'));
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+  public function store(Request $request)
+{
+    // Validate incoming data
+    $validated = $request->validate([
+        'category_name' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
         'price' => 'required|numeric',
-        'category_id' => 'required|exists:categories,id',
-        'tags' => 'array',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'tags' => 'nullable|array',
+        'image' => 'nullable|image|max:2048',
     ]);
 
+    // ✅ Check if category exists, or create it
+    $category = Category::firstOrCreate(
+        ['name' => $validated['category_name']],
+        ['created_at' => now(), 'updated_at' => now()]
+    );
+
+    // ✅ Handle image upload
+    $imagePath = null;
     if ($request->hasFile('image')) {
-        $path = $request->file('image')->store('products', 'public');
-        $validated['image'] = $path;
+        $imagePath = $request->file('image')->store('products', 'public');
     }
 
-    $product = Product::create($validated);
+    // ✅ Create the product and associate with category
+    $product = Product::create([
+        'category_id' => $category->id,
+        'name' => $validated['name'],
+        'description' => $validated['description'],
+        'price' => $validated['price'],
+        'stock_quantity' => 0,
+        'image_url' => $imagePath,
+    ]);
 
-    if ($request->has('tags')) {
-        $product->tags()->attach($request->tags);
+    // ✅ Attach tags if provided
+    if (!empty($validated['tags'])) {
+        $product->tags()->sync($validated['tags']);
     }
 
-    return redirect()->route('products.index')->with('success', 'Product created successfully!');
-    }
+    // ✅ Redirect with success message
+    return redirect()->route('products.create')->with('success', '✅ Product created and added to category: ' . $category->name);
+}
 
-    public function edit(Product $product)
+
+    // Show the edit form
+    public function edit(Product $products)
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('products.edit', compact('product','categories','tags'));
+        return view('products.edit', compact('product', 'categories', 'tags'));
     }
 
+    // Update an existing product
     public function update(Request $request, Product $product)
     {
-        $product->update($request->only(['name','description','price','category_id']));
+        $validated = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'stock_quantity' => 'required|integer|min:0',
+            'tags' => 'array',
+        ]);
+
+        $product->update($validated);
         $product->tags()->sync($request->tags ?? []);
-        return redirect()->route('products.index');
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
+    // Delete a product
     public function destroy(Product $product)
     {
         $product->tags()->detach();
         $product->delete();
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 
+    // Upload/update product image via AJAX
     public function uploadImage(Request $request, $id)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-    // Store the uploaded file
-    $path = $request->file('image')->store('products', 'public');
+        $path = $request->file('image')->store('products', 'public');
+        $product->image = $path;
+        $product->save();
 
-    // Update product record
-    $product->image = $path;
-    $product->save();
+        return response()->json([
+            'success' => true,
+            'image_url' => asset('storage/' . $path),
+        ]);
+    }
 
-    // Return JSON for AJAX
-    return response()->json([
-        'success' => true,
-        'image_url' => asset('storage/' . $path),
-    ]);
-}
-public function show($id)
-{
-    $product = Product::findOrFail($id);
-    return view('products.show', compact('product'));
-}
-
-
+    // Show product details
+    public function show($id)
+    {
+        $product = Product::with(['category', 'tags'])->findOrFail($id);
+        return view('products.show', compact('product'));
+    }
 }

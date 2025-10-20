@@ -3,14 +3,28 @@
 @section('title', 'Create Product | Online Shop')
 
 @section('content')
+
 <h1 class="text-2xl font-bold mb-4">Create Product</h1>
+
+{{-- Success Message --}}
+@if(session('success'))
+    <div class="mb-4 p-3 text-green-800 bg-green-200 rounded">
+        {{ session('success') }}
+    </div>
+@endif
 
 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
+    {{-- Category (Text Input) --}}
+    <div class="mb-2">
+        <label class="block font-semibold">Category</label>
+        <input type="text" name="category_name" value="{{ old('category_name') }}" placeholder="Enter category name" class="border p-2 w-full rounded" required>
+    </div>
+
     {{-- Product Name --}}
     <div class="mb-2">
-        <label class="block font-semibold">Name</label>
+        <label class="block font-semibold">Product Name</label>
         <input type="text" name="name" value="{{ old('name') }}" class="border p-2 w-full rounded" required>
     </div>
 
@@ -26,15 +40,15 @@
         <input type="number" name="price" value="{{ old('price') }}" step="0.01" class="border p-2 w-full rounded" required>
     </div>
 
-    {{-- ✅ Tags Dropdown --}}
+    {{-- Tags --}}
     <div class="mb-2">
         <label class="block font-semibold">Tags</label>
-        <select name="tags[]" id="tags" multiple class="border p-2 w-full rounded" required>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Beauty & Health">Beauty & Health</option>
-            <option value="Books">Books</option>
-            <option value="Home & Kitchen">Home & Kitchen</option>
+        <select name="tags[]" id="tags" multiple class="border p-2 w-full rounded">
+            @foreach($tags as $tag)
+                <option value="{{ $tag }}" {{ (collect(old('tags'))->contains($tag)) ? 'selected':'' }}>
+                    {{ $tag }}
+                </option>
+            @endforeach
         </select>
     </div>
 
@@ -62,4 +76,5 @@
         });
     });
 </script>
+
 @endsection
