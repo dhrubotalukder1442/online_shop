@@ -17,7 +17,7 @@
         {{-- Example Product Data --}}
         @php
             $products = [
-                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg', <button></button>],
+                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg'],
                 ['id' => 2, 'name' => 'Headphones', 'price' => 59.99, 'tags' => ['Electronics'], 'image' => 'headphones.jpg'],
                 ['id' => 3, 'name' => 'T-Shirt', 'price' => 19.99, 'tags' => ['Clothing'], 'image' => 'tshirt.jpg'],
                 ['id' => 4, 'name' => 'Lipstick', 'price' => 9.99, 'tags' => ['Beauty & Health'], 'image' => 'lipstick.jpg'],
