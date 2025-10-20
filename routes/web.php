@@ -15,10 +15,14 @@ Route::get('/', function () {
 });
 Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
      ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+    ->name('products.uploadimage');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
