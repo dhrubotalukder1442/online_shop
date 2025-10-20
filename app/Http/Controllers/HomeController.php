@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Order;
 
 class HomeController extends Controller
 {
@@ -31,4 +34,16 @@ class HomeController extends Controller
         // Redirect to login page
         return redirect()->route('login');
     }
+     public function index1()
+    {
+        // ✅ Total counts for product and category
+        $totalProducts = Product::count();
+        $totalCategories = Category::count();
+        $totalOrders = Order::count(); // ✅ New
+
+        // ✅ Pass to dashboard
+        return view('dashboard', compact('totalProducts', 'totalCategories', 'totalOrders'));
+    }
+
+
 }

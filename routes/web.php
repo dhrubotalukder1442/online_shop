@@ -24,6 +24,9 @@ Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])
     ->name('admin.dashboard')
     ->middleware(['auth']); // optional
 
+// product count
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
 
 Route::post('/logout-confirm', function () {
     auth()->logout();
