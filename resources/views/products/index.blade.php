@@ -59,6 +59,17 @@
                                 @endif
                             </div>
 
+                            {{-- Upload Image Form --}}
+                            <form action="{{ route('products.uploadimage', $product['id']) }}"
+                                  method="POST" enctype="multipart/form-data"
+                                  class="flex flex-col items-center mb-3">
+                                @csrf
+                                <label class="cursor-pointer bg-gray-200 hover:bg-indigo-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-md transition">
+                                    📷 Upload
+                                    <input type="file" name="image" class="hidden" onchange="this.form.submit()">
+                                </label>
+                            </form>
+
                             {{-- Product Info --}}
                             <h3 class="text-lg font-semibold text-gray-900 text-center group-hover:text-indigo-600 transition">
                                 {{ $product['name'] }}
