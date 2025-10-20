@@ -16,12 +16,7 @@ Route::get('/select-role', [HomeController::class, 'selectRole'])->name('select.
 Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('role.redirect');
 
 Route::get('/', function () {
-<<<<<<< HEAD
-    return redirect('login');
-    // return view('auth.login');
-=======
     return redirect('/home');
->>>>>>> 0055f57e8b412efa0d89fa2b190be0023b24714a
 });
 
 

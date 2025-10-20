@@ -70,19 +70,13 @@
             </div>
 
             <!-- Buttons -->
-            <div class="flex items-center justify-between mt-6">
-                @if (Route::has('login'))
-                    <a href="{{ route('login') }}"
-                       class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-32 text-center transition">
-                        {{ __('Login') }}
-                    </a>
-                @endif
+            <div class="flex items-center justify-center mt-6">
+    <button type="submit"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-32 text-center transition">
+        {{ __('Register') }}
+    </button>
+</div>
 
-                <button type="submit"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-32 text-center transition">
-                    {{ __('Register') }}
-                </button>
-            </div>
         </form>
     </div>
 </div>
