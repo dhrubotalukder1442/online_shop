@@ -11,13 +11,34 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 
+Route::get('/', function () {
+    return redirect('/home');
+});
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/select-role', [HomeController::class, 'selectRole'])->name('select.role');
 Route::post('/select-role', [HomeController::class, 'redirectToLogin'])->name('role.redirect');
 
-Route::get('/', function () {
-    return redirect('/products');
-});
+// Admin Dashboard
+Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])
+    ->name('admin.dashboard')
+    ->middleware(['auth']); // optional
+
+// product count
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+
+Route::post('/logout-confirm', function () {
+    auth()->logout();
+    return view('logout');
+})->name('logout.confirm');
+
+
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+     ->name('products.uploadimage'); // ⚠️ match name exactly as in Blade
+Route::post('/products/{id}/upload-image', [ProductController::class, 'uploadImage'])
+    ->name('products.uploadimage');
+
 
 // Dashboard
 Route::get('/dashboard', function () {

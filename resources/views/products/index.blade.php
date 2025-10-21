@@ -17,16 +17,16 @@
         {{-- Example Product Data --}}
         @php
             $products = [
-                ['id' => 1, 'name' => 'Smartphone', 'price' => 699.99, 'tags' => ['Electronics'], 'image' => 'smartphone.jpg'],
-                ['id' => 2, 'name' => 'Headphones', 'price' => 59.99, 'tags' => ['Electronics'], 'image' => 'headphones.jpg'],
-                ['id' => 3, 'name' => 'T-Shirt', 'price' => 19.99, 'tags' => ['Clothing'], 'image' => 'tshirt.jpg'],
-                ['id' => 4, 'name' => 'Lipstick', 'price' => 9.99, 'tags' => ['Beauty & Health'], 'image' => 'lipstick.jpg'],
-                ['id' => 5, 'name' => 'Fiction Book', 'price' => 14.99, 'tags' => ['Books'], 'image' => 'book.jpg'],
-                ['id' => 6, 'name' => 'Blender', 'price' => 49.99, 'tags' => ['Home & Kitchen'], 'image' => 'blender.jpg'],
+                ['id' => 1, 'name' => 'Samsung', 'price' => 699.99, 'tags' => ['Mobile-Phone'], 'image' => 'smartphone.jpg'],
+                ['id' => 2, 'name' => 'Hoco', 'price' => 59.99, 'tags' => ['Headphone'], 'image' => 'hphone.png'],
+                ['id' => 3, 'name' => 'Lenovo', 'price' => 19.99, 'tags' => ['Speaker'], 'image' => 'tshirt.jpg'],
+                ['id' => 4, 'name' => 'Gree', 'price' => 9.99, 'tags' => ['Air Conditioner'], 'image' => 'lipstick.jpg'],
+                ['id' => 5, 'name' => 'Sony', 'price' => 14.99, 'tags' => ['Television'], 'image' => 'book.jpg'],
+                ['id' => 6, 'name' => 'LG', 'price' => 49.99, 'tags' => ['Washing Machine'], 'image' => 'blender.jpg'],
             ];
 
             $grouped = collect($products)->groupBy(fn($p) => $p['tags'][0]);
-            $order = ['Electronics', 'Clothing', 'Beauty & Health', 'Books', 'Home & Kitchen'];
+            $order = ['Mobile-Phone', 'Headphone', 'Speaker', 'Air Conditioner', 'Television', 'Washing Machine'];
             $sorted = collect($order)
                         ->mapWithKeys(fn($cat) => [$cat => $grouped->get($cat, collect())])
                         ->filter(fn($items) => $items->isNotEmpty());
@@ -46,7 +46,7 @@
                             {{-- Product Image --}}
                             <div class="w-28 h-28 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden mb-4">
                                 @if(!empty($product['image']))
-                                    <img src="{{ asset('storage/products/' . $product['image']) }}"
+                                    <img src="{{ asset('images/products/' . $product['image']) }}"
                                          alt="{{ $product['name'] }}"
                                          class="object-cover w-full h-full">
                                 @else
@@ -58,17 +58,6 @@
                                     </svg>
                                 @endif
                             </div>
-
-                            {{-- Upload Image Form --}}
-                            <form action="{{ route('products.uploadimage', $product['id']) }}"
-                                  method="POST" enctype="multipart/form-data"
-                                  class="flex flex-col items-center mb-3">
-                                @csrf
-                                <label class="cursor-pointer bg-gray-200 hover:bg-indigo-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-md transition">
-                                    📷 Upload
-                                    <input type="file" name="image" class="hidden" onchange="this.form.submit()">
-                                </label>
-                            </form>
 
                             {{-- Product Info --}}
                             <h3 class="text-lg font-semibold text-gray-900 text-center group-hover:text-indigo-600 transition">

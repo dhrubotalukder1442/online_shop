@@ -10,7 +10,7 @@
 
     {{-- Product Name --}}
     <div class="mb-2">
-        <label class="block font-semibold">Name</label>
+        <label class="block font-semibold">Product Name</label>
         <input type="text" name="name" value="{{ old('name') }}" class="border p-2 w-full rounded" required>
     </div>
 
@@ -30,11 +30,12 @@
     <div class="mb-2">
         <label class="block font-semibold">Tags</label>
         <select name="tags[]" id="tags" multiple class="border p-2 w-full rounded" required>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Beauty & Health">Beauty & Health</option>
-            <option value="Books">Books</option>
-            <option value="Home & Kitchen">Home & Kitchen</option>
+            <option value="Mobile-Phone">Mobile-Phone</option>
+            <option value="Headphone">Headphone</option>
+            <option value="Speaker">Speaker</option>
+            <option value="Air Conditioner">Air Conditioner</option>
+            <option value="Televison">Televison</option>
+            <option value="Washing Machine">Washing Machine</option>
         </select>
     </div>
 
